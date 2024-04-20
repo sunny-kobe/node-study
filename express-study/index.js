@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -7,6 +9,12 @@ app.get('/home', (req, res, next) => {
     res.end("home get response");
     next();
 })
+
+
+const loggerWriter = fs.createWriteStream('./log/access.log', {
+    flags: 'a+'
+})
+app.use(morgan('combined', { stream: loggerWriter }));
 
 
 
