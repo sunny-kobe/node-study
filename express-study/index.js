@@ -20,6 +20,13 @@ app.post('/upload', upload.array('files'), (req, res, next) => {
     res.end("文件上传成功~");
 })
 
+app.use(upload.any());
+
+app.use('/login/:id/:name', (req, res, next) => {
+    console.log(req.params);
+    res.json("params请求成功~");
+})
+
 app.get('/home', (req, res, next) => {
     console.log("home get middleware");
     res.end("home get response");
