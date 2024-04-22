@@ -2,10 +2,22 @@ const express = require('express');
 const fs = require('fs');
 const morgan = require('morgan');
 const multer = require('multer');
-
 const app = express();
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
 const upload = multer({
-    dest: "uploads/"
+    storage
+})
+app.post('/upload', upload.single('file'), (req, res, next) => {
+    console.log(req.file);
+    res.end("文件上传成功~");
 })
 
 app.get('/home', (req, res, next) => {
@@ -21,11 +33,6 @@ const loggerWriter = fs.createWriteStream('./log/access.log', {
 app.use(morgan('combined', { stream: loggerWriter }));
 
 app.use(express.json());
-
-app.post('/upload', upload.single('file'), (req, res, next) => {
-    console.log(req.file);
-    res.end("上传成功~");
-})
 
 app.listen(8000, () => {
     console.log("中间件服务器启动成功~");
