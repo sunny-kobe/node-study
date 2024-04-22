@@ -21,10 +21,9 @@ app.post('/upload', upload.array('files'), (req, res, next) => {
 })
 
 app.use(upload.any());
-
-app.use('/login/:id/:name', (req, res, next) => {
-    console.log(req.params);
-    res.json("params请求成功~");
+app.use('/login', (req, res, next) => {
+    console.log(req.query);
+    res.json("query请求成功~");
 })
 
 app.get('/home', (req, res, next) => {
