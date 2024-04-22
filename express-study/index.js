@@ -23,7 +23,10 @@ app.post('/upload', upload.array('files'), (req, res, next) => {
 app.use(upload.any());
 app.use('/login', (req, res, next) => {
     console.log(req.query);
+    // 响应方式有两种：res.end()和res.json()
+    // res.end("query请求成功~");
     res.json("query请求成功~");
+    res.status(204);
 })
 
 app.get('/home', (req, res, next) => {
