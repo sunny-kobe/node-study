@@ -1,3 +1,4 @@
+const userRoutes = require('./route/userRoutes.js');
 const express = require('express');
 const fs = require('fs');
 const morgan = require('morgan');
@@ -40,8 +41,10 @@ const loggerWriter = fs.createWriteStream('./log/access.log', {
     flags: 'a+'
 })
 app.use(morgan('combined', { stream: loggerWriter }));
-
 app.use(express.json());
+
+// 使用导入的路由处理程序
+app.use('/users', userRoutes);
 
 app.listen(8000, () => {
     console.log("中间件服务器启动成功~");
